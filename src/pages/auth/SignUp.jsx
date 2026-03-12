@@ -5,6 +5,7 @@ import { auth } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -43,6 +44,9 @@ const SignUp = () => {
       );
 
       const user = userCredential.user;
+      await updateProfile(user, {
+        displayName: username,
+      });
 
       await sendEmailVerification(user);
 

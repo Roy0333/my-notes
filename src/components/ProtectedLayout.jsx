@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import TopBar from "../components/layout/TopBar";
 
 function ProtectedLayout() {
   const [user, setUser] = useState(undefined);
@@ -26,7 +27,16 @@ function ProtectedLayout() {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <TopBar />
+      <main className="p-6 bg-gray-300 h-[calc(100vh-80px)]">
+        <div className="bg-white rounded-xl p-6 h-full overflow-auto">
+          <Outlet />
+        </div>
+      </main>
+    </>
+  );
 }
 
 export default ProtectedLayout;
