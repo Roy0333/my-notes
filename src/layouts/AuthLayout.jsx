@@ -1,7 +1,25 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { auth } from "../firebase";
+import { Outlet, Navigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
 const AuthLayout = () => {
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // while firebase checking auth
+  if (user === undefined) return null;
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <main className="w-lvw h-lvh overflow-hidden bg-black relative flex justify-center items-center">
       <video

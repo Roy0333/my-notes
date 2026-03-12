@@ -1,30 +1,97 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { auth } from "../../firebase";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmIsPasswordVisible] =
     useState(false);
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+
+    if (!username || !email || !password || !confirmPassword) {
+      alert("Please fill all required fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      const user = userCredential.user;
+
+      await sendEmailVerification(user);
+
+      alert("Account created! Please check your email to verify your account.");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
+
   return (
     <div>
       <div className="mb-5 text-center">
-        <img src="/images/commons/site-logo.png" className="mx-auto h-20"></img>
+        <img src="/images/commons/site-logo.png" className="mx-auto h-20" />
         <h1 className="text-black-400 font-inter text-sm">
           Hey There! SignUp to Proceed
         </h1>
       </div>
-      <form>
+
+      <form onSubmit={handleSignup}>
         <div className="form-group">
-          <label className="block">Set Username</label>
-          <input type="text" placeholder="Enter Username" />
+          <label>Username</label>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
-        <div className="form-group ">
-          <label className="block">Set Password</label>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="Enter Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Set Password</label>
+
           <div className="relative">
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
+
             <button
               type="button"
               className="absolute right-2 top-1/2 -translate-y-1/2"
@@ -34,13 +101,17 @@ const SignUp = () => {
             </button>
           </div>
         </div>
-        <div className="form-group ">
-          <label className="block">Confirm Password</label>
+
+        <div className="form-group">
+          <label>Confirm Password</label>
+
           <div className="relative">
             <input
               type={isConfirmPasswordVisible ? "text" : "password"}
-              placeholder="Enter Confirm Password"
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
+
             <button
               type="button"
               className="absolute right-2 top-1/2 -translate-y-1/2"
@@ -52,13 +123,19 @@ const SignUp = () => {
             </button>
           </div>
         </div>
-        <button className="bg-black text-white uppercase text-lg font-semibold tracking-widest w-full rounded-md px-4 py-3">
-          SignUp
+
+        <button
+          disabled={loading}
+          className="bg-black text-white w-full py-3 rounded-md mt-4 uppercase text-lg font-semibold tracking-widest"
+        >
+          {loading ? "Signing Up..." : "Signup"}
         </button>
-        <div className="py-5 relative text-center">Already have a account?</div>
+
+        <div className="py-5 text-center">Already have an account?</div>
+
         <Link
-          to="/"
-          className="bg-white text-black border border-solid border-black uppercase text-lg font-semibold tracking-widest w-full rounded-md px-4 py-3 inline-block text-center"
+          to="/login"
+          className="bg-white text-black border border-black w-full py-3 block text-center rounded-md uppercase text-lg font-semibold tracking-widest"
         >
           Back to login
         </Link>

@@ -23,7 +23,7 @@ function ProtectedLayout() {
 
   // If not logged in
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;
