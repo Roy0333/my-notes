@@ -21,13 +21,13 @@ const AuthLayout = () => {
     return <Navigate to="/" replace />;
   }
   return (
-    <main className="w-lvw h-lvh overflow-hidden bg-black relative flex justify-center items-center">
+    <main className="w-lvw h-lvh md:p-0 p-2.5 overflow-hidden bg-black relative flex justify-center items-center">
       <video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute top-0 left-0 object-contain w-full h-full brightness-100 grayscale"
+        className="absolute top-0 left-0 md:object-contain object-cover w-full h-full brightness-100 grayscale"
       >
         <source src="/videos/login-bgVideo.mp4" type="video/mp4" />
       </video>
