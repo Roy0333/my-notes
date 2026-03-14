@@ -10,7 +10,7 @@ const NoteDetails = () => {
           <label>Title</label>
           <input type="text"></input>
         </div>
-        <div className="note-form-group h-[calc(100vh-330px)] overflow-hidden">
+        <div className="note-form-group md:h-[calc(100vh-330px)] h-[calc(100vh-285px)] overflow-hidden">
           <label>Note</label>
           <Editor />
         </div>

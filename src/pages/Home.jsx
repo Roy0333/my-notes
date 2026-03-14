@@ -7,14 +7,14 @@ const Home = () => {
     <div className="">
       <div className="flex justify-between items-center">
         <div className="flex">
-          <h1 className="text-3xl font-bold">My Notes</h1>
-          <span>0 Notes</span>
+          <h1 className="md:text-3xl text-2xl font-bold">My Notes</h1>
+          <span className="font-medium ml-2">0</span>
         </div>
         <Link
           to="/add-note"
-          className="font-semibold bg-black text-white hover:bg-white hover:text-black border border-black transition duration-300 rounded-md py-2 px-3 flex items-center gap-1.5"
+          className="text-base font-semibold bg-black text-white hover:bg-white hover:text-black border border-black transition duration-300 rounded-md py-2 md:px-3 px-2.5 flex items-center gap-1.5"
         >
-          <Plus /> Add New
+          <Plus className="md:w-auto md:h-auto w-5 h-5" /> Add New
         </Link>
       </div>
       <div className="mt-10">

@@ -241,7 +241,7 @@ function Editor() {
         suppressContentEditableWarning
         onMouseUp={saveSelection}
         onKeyUp={saveSelection}
-        className="editor-box h-[calc(100%-87px)] border border-gray-100 rounded-br-lg rounded-bl-lg p-3 focus:outline-none"
+        className="editor-box md:h-[calc(100%-87px)] h-[calc(100%-170px)] border border-gray-100 rounded-br-lg rounded-bl-lg p-3 focus:outline-none"
       />
 
       {/* Annotation Modal */}
