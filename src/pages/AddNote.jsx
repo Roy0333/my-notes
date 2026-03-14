@@ -4,7 +4,7 @@ import Editor from "../components/Editor";
 
 const NoteDetails = () => {
   return (
-    <form className="h-full flex flex-col justify-between">
+    <div className="h-full flex flex-col justify-between">
       <div>
         <div className="note-form-group">
           <label>Title</label>
@@ -26,7 +26,7 @@ const NoteDetails = () => {
           Save
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 
