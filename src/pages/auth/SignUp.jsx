@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
+  signOut,
 } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
@@ -54,9 +55,15 @@ const SignUp = () => {
         createdAt: serverTimestamp(),
       });
 
+      // send verification email using :contentReference[oaicite:1]{index=1}
       await sendEmailVerification(user);
 
-      alert("Account created! Please check your email to verify your account.");
+      // logout user
+      await signOut(auth);
+
+      alert("Account created! Please verify your email before logging in.");
+
+      // redirect to login page
       navigate("/login");
     } catch (error) {
       console.error(error);
