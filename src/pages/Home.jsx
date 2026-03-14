@@ -1,8 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
+import { db, auth } from "../firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 const Home = () => {
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const q = query(
+        collection(db, "users", user.uid, "notes"),
+        orderBy("createdAt", "desc"),
+      );
+
+      const snapshot = await getDocs(q);
+
+      const notesData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setNotes(notesData);
+    };
+
+    fetchNotes();
+  }, []);
+  const formatDate = (timestamp) => {
+    if (!timestamp) return "";
+
+    const date = timestamp.toDate();
+
+    return date.toLocaleString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
   return (
     <div className="">
       <div className="flex justify-between items-center">
@@ -18,13 +58,18 @@ const Home = () => {
         </Link>
       </div>
       <div className="mt-10">
-        <Link
-          to=""
-          className="shadow-lg px-4 py-4 rounded-lg w-full block bg-gray-300"
-        >
-          <h2 className="text-xl font-medium mb-2">First Note</h2>
-          <span className="text-sm">Last Updated: 10:12PM 12JAN 2026</span>
-        </Link>
+        {notes.map((note) => (
+          <Link
+            key={note.id}
+            to={`/note/${note.id}`}
+            className="shadow-lg px-4 py-4 rounded-lg w-full block bg-gray-300 [&:not(:last-child)]:mb-4"
+          >
+            <h2 className="text-xl font-medium mb-2">{note.title}</h2>
+            <span className="text-sm">
+              Last Updated: {formatDate(note.createdAt)}
+            </span>
+          </Link>
+        ))}
       </div>
     </div>
   );

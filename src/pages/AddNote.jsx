@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import Editor from "../components/Editor";
 import { db, auth } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const AddNotes = () => {
   const editorRef = useRef();
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
   // const saveNote = async () => {
   //   const content = editorRef.current.getContent();
@@ -36,6 +38,7 @@ const AddNotes = () => {
       content: content,
       createdAt: serverTimestamp(),
     });
+    navigate("/");
 
     alert("Note saved!");
   };
