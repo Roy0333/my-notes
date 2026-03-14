@@ -4,14 +4,16 @@ import Editor from "../components/Editor";
 
 const NoteDetails = () => {
   return (
-    <form className="h-full">
-      <div className="note-form-group">
-        <label>Title</label>
-        <input type="text"></input>
-      </div>
-      <div className="note-form-group h-[calc(100vh-330px)] overflow-hidden">
-        <label>Note</label>
-        <Editor />
+    <form className="h-full flex flex-col justify-between">
+      <div>
+        <div className="note-form-group">
+          <label>Title</label>
+          <input type="text"></input>
+        </div>
+        <div className="note-form-group h-[calc(100vh-330px)] overflow-hidden">
+          <label>Note</label>
+          <Editor />
+        </div>
       </div>
       <div className="flex justify-between items-center">
         <Link

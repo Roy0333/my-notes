@@ -30,8 +30,8 @@ function ProtectedLayout() {
   return (
     <>
       <TopBar />
-      <main className="p-6 bg-gray-300 h-[calc(100vh-80px)]">
-        <div className="bg-white rounded-xl p-6 h-full overflow-auto">
+      <main className="md:p-6 p-4 bg-gray-300 h-[calc(100vh-80px)]">
+        <div className="bg-white rounded-xl md:p-6 p-3 h-full overflow-auto">
           <Outlet />
         </div>
       </main>

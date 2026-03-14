@@ -124,7 +124,7 @@ function Editor() {
   return (
     <div className="h-full m-auto rounded-lg overflow-hidden">
       {/* Toolbar */}
-      <div className="toolbar bg-black text-white flex items-center gap-4 px-3 py-2.5">
+      <div className="toolbar bg-black text-white flex items-center gap-4 flex-wrap px-3 py-2.5">
         <button
           className={btn(activeFormats.bold)}
           onMouseDown={(e) => e.preventDefault()}
