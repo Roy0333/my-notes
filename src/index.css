@@ -68,7 +68,7 @@ img {
 .form-group {
   @apply relative mb-4;
   label {
-    @apply md:text-lg text-xs font-semibold text-black mb-2;
+    @apply md:text-lg text-xs font-semibold text-black mb-2 inline-block;
   }
   input[type="text"],
   input[type="password"],
@@ -84,4 +84,72 @@ img {
   input[type="tel"]::placeholder {
     @apply text-gray-700;
   }
+}
+.note-form-group {
+  @apply relative mb-4;
+  label {
+    @apply md:text-lg text-xs font-semibold text-black mb-3 inline-block;
+  }
+  input[type="text"] {
+    @apply bg-white border border-gray-600 w-full rounded-lg px-4 py-2;
+  }
+  input[type="text"]::placeholder {
+    @apply text-gray-700;
+  }
+}
+
+/* ============
+Editor Style 
+==================*/
+.editor-box {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.editor-box p {
+  margin: 10px 0;
+}
+
+.editor-box h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 18px 0 10px;
+}
+
+.editor-box h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+}
+
+.editor-box h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 14px 0 6px;
+}
+
+.editor-box ul {
+  margin-left: 25px;
+  padding-left: 10px;
+}
+.editor-box ul li {
+  list-style: disc;
+}
+
+.editor-box ol {
+  margin-left: 25px;
+  padding-left: 10px;
+}
+.editor-box ol li {
+  list-style: decimal;
+}
+
+.editor-box li {
+  margin: 6px 0;
+}
+
+.editor-box img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 10px 0;
 }

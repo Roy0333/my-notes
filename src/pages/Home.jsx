@@ -1,18 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
 
 const Home = () => {
   return (
     <div className="">
-      <div className="flex justify-end">
-        <Link to="/note" className="bg-black text-white rounded-md py-2 px-3">
-          Add New
+      <div className="flex justify-between items-center">
+        <div className="flex">
+          <h1 className="text-3xl font-bold">My Notes</h1>
+          <span>0 Notes</span>
+        </div>
+        <Link
+          to="/add-note"
+          className="font-semibold bg-black text-white hover:bg-white hover:text-black border border-black transition duration-300 rounded-md py-2 px-3 flex items-center gap-1.5"
+        >
+          <Plus /> Add New
         </Link>
       </div>
-      <Link to="">
-        <h2>First Note</h2>
-        <span>Last Updated: 10:12PM 12JAN 2026</span>
-      </Link>
+      <div className="mt-10">
+        <Link
+          to=""
+          className="shadow-lg px-4 py-4 rounded-lg w-full block bg-gray-300"
+        >
+          <h2 className="text-xl font-medium mb-2">First Note</h2>
+          <span className="text-sm">Last Updated: 10:12PM 12JAN 2026</span>
+        </Link>
+      </div>
     </div>
   );
 };

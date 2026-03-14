@@ -8,7 +8,7 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/Home";
-import NoteDetails from "./pages/NoteDetails";
+import AddNote from "./pages/AddNote";
 
 const router = createBrowserRouter([
   // Public routes
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/note",
-        element: <NoteDetails />,
+        path: "/add-note",
+        element: <AddNote />,
       },
     ],
   },
