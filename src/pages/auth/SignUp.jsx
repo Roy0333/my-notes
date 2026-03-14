@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -47,11 +47,17 @@ const SignUp = () => {
       await updateProfile(user, {
         displayName: username,
       });
+      // create user document in firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: username,
+        email: user.email,
+        createdAt: serverTimestamp(),
+      });
 
       await sendEmailVerification(user);
 
       alert("Account created! Please check your email to verify your account.");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -73,6 +79,7 @@ const SignUp = () => {
           <input
             type="text"
             placeholder="Enter Username"
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>

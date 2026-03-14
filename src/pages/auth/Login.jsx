@@ -10,12 +10,15 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (loading) return;
 
     try {
+      setLoading(true);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -27,16 +30,16 @@ const Login = () => {
       // check email verification
       if (!user.emailVerified) {
         alert("Please verify your email before logging in.");
+        await auth.signOut();
         return;
       }
 
-      alert("Login successful!");
+      // alert("Login successful!");
       navigate("/");
-      // here we usually redirect
-      // navigate("/dashboard");
     } catch (error) {
       console.error(error);
       alert("Invalid email or password");
+      setLoading(false);
     }
   };
 
@@ -55,6 +58,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Enter Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -66,6 +70,7 @@ const Login = () => {
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
@@ -79,8 +84,11 @@ const Login = () => {
           </div>
         </div>
 
-        <button className="bg-black text-white uppercase text-lg font-semibold tracking-widest w-full rounded-md px-4 py-3">
-          Login
+        <button
+          disabled={loading}
+          className="bg-black text-white uppercase text-lg font-semibold tracking-widest w-full rounded-md px-4 py-3"
+        >
+          {loading ? "Login..." : "Login"}
         </button>
 
         <div className="py-5 text-center">Don't have an account?</div>

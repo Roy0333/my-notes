@@ -1,4 +1,10 @@
-import { useRef, useState, useEffect } from "react";
+import {
+  useRef,
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import {
   Bold,
   Quote,
@@ -13,8 +19,13 @@ import {
   Italic,
 } from "lucide-react";
 
-function Editor() {
+const Editor = forwardRef((props, ref) => {
   const editorRef = useRef(null);
+  useImperativeHandle(ref, () => ({
+    getContent() {
+      return editorRef.current.innerHTML;
+    },
+  }));
   const fileInputRef = useRef(null);
   const savedRange = useRef(null);
 
@@ -265,6 +276,6 @@ function Editor() {
       )}
     </div>
   );
-}
-
+});
+Editor.displayName = "Editor";
 export default Editor;
