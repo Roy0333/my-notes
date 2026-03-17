@@ -2,13 +2,14 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import AuthLayout from "./layouts/AuthLayout";
-import ProtectedLayout from "./components/ProtectedLayout";
+import ProtectedLayout from "./layouts/ProtectedLayout";
 
 // Pages Imports
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/Home";
 import AddNote from "./pages/AddNote";
+import NoteDetails from "./pages/NoteDetails";
 
 const router = createBrowserRouter([
   // Public routes
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/add-note",
         element: <AddNote />,
+      },
+      {
+        path: "/note/:id",
+        element: <NoteDetails />,
       },
     ],
   },

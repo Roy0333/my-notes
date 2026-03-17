@@ -2,11 +2,32 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { db, auth } from "../firebase";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import { EllipsisVertical, Pencil, Trash, Eye } from "lucide-react";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const Home = () => {
   const [notes, setNotes] = useState([]);
+  const [detailDropdown, setDetailDropdown] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const isOpenDropDown = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // setDetailDropdown(!detailDropdown);
+    setDetailDropdown((prev) => (prev === id ? null : id));
+  };
 
+  // ================
+  // Fetch Notes Data
+  // =================
   useEffect(() => {
     const fetchNotes = async () => {
       const user = auth.currentUser;
@@ -29,6 +50,10 @@ const Home = () => {
 
     fetchNotes();
   }, []);
+
+  // ===========
+  // Date Format
+  // ============
   const formatDate = (timestamp) => {
     if (!timestamp) return "";
 
@@ -42,6 +67,45 @@ const Home = () => {
       month: "short",
       year: "numeric",
     });
+  };
+
+  // ===========
+  // Delete Note
+  // =============
+  // const handleDelete = async (e, id) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+
+  //   const user = auth.currentUser;
+  //   if (!user) return;
+
+  //   try {
+  //     await deleteDoc(doc(db, "users", user.uid, "notes", id));
+
+  //     // update UI instantly
+  //     setNotes((prev) => prev.filter((note) => note.id !== id));
+
+  //     // optional: close dropdown
+  //     setDetailDropdown(null);
+  //   } catch (err) {
+  //     console.error("Error deleting note:", err);
+  //   }
+  // };
+  const confirmDelete = async () => {
+    const user = auth.currentUser;
+    if (!user || !selectedNoteId) return;
+
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "notes", selectedNoteId));
+
+      setNotes((prev) => prev.filter((note) => note.id !== selectedNoteId));
+
+      setShowModal(false);
+      setSelectedNoteId(null);
+      setDetailDropdown(null);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div className="">
@@ -62,15 +126,50 @@ const Home = () => {
           <Link
             key={note.id}
             to={`/note/${note.id}`}
-            className="shadow-lg px-4 py-4 rounded-lg w-full block bg-gray-300 [&:not(:last-child)]:mb-4"
+            className="shadow-lg px-4 py-4 rounded-lg w-full bg-gray-300 [&:not(:last-child)]:mb-4 flex justify-between items-center gap-3"
           >
-            <h2 className="text-xl font-medium mb-2">{note.title}</h2>
-            <span className="text-sm">
-              Last Updated: {formatDate(note.createdAt)}
-            </span>
+            <div>
+              <h2 className="text-xl font-medium mb-2">{note.title}</h2>
+              <span className="text-sm">
+                Last Updated: {formatDate(note.createdAt)}
+              </span>
+            </div>
+            <div className="relative">
+              <EllipsisVertical
+                className=""
+                onClick={(e) => isOpenDropDown(e, note.id)}
+              />
+              {detailDropdown === note.id && (
+                <div className="bg-white shadow-lg absolute top-full left-0 -translate-x-1/2 rounded-md z-10">
+                  <button className="px-3 py-2 border-b border-solid border-gray-200 w-full text-left flex gap-2 items-center">
+                    <Pencil className="w-5 h-5" /> Edit
+                  </button>
+                  <button
+                    // onClick={(e) => handleDelete(e, note.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedNoteId(note.id);
+                      setShowModal(true);
+                    }}
+                    className="px-3 py-2 border-b border-solid border-gray-200 w-full text-left flex gap-2 items-center"
+                  >
+                    <Trash className="w-5 h-5" /> Delete
+                  </button>
+                </div>
+              )}
+            </div>
           </Link>
         ))}
       </div>
+      <ConfirmationModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={confirmDelete}
+        title="Delete this note?"
+        message="This action cannot be undone."
+        confirmText="Delete"
+      />
     </div>
   );
 };

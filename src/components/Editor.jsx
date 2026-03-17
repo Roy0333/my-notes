@@ -23,7 +23,14 @@ const Editor = forwardRef((props, ref) => {
   const editorRef = useRef(null);
   useImperativeHandle(ref, () => ({
     getContent() {
-      return editorRef.current.innerHTML;
+      let html = editorRef.current.innerHTML;
+
+      // normalize: wrap plain text in <p>
+      if (!html.trim().startsWith("<")) {
+        html = `<p>${html}</p>`;
+      }
+
+      return html;
     },
   }));
   const fileInputRef = useRef(null);
@@ -252,6 +259,18 @@ const Editor = forwardRef((props, ref) => {
         suppressContentEditableWarning
         onMouseUp={saveSelection}
         onKeyUp={saveSelection}
+        onFocus={() => {
+          if (editorRef.current.innerHTML === "") {
+            editorRef.current.innerHTML = "<p><br/></p>";
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setTimeout(() => {
+              document.execCommand("formatBlock", false, "p");
+            }, 0);
+          }
+        }}
         className="editor-box md:h-[calc(100%-87px)] h-[calc(100%-170px)] border border-gray-100 rounded-br-lg rounded-bl-lg p-3 focus:outline-none"
       />
 
