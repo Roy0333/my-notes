@@ -26,12 +26,15 @@ const ConfirmationModal = ({
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div ref={modalRef} className="bg-white p-6 rounded-lg w-[320px]">
+      <div
+        ref={modalRef}
+        className="bg-white p-6 rounded-lg w-[320px] text-center"
+      >
         <h2 className="text-lg font-semibold mb-2">{title}</h2>
 
         <p className="text-sm mb-6">{message}</p>
 
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-center gap-3">
           <button
             onClick={onConfirm}
             className="font-semibold bg-black text-white hover:bg-white hover:text-black border border-black transition duration-300 rounded-md py-2 px-3 flex items-center gap-1.5"

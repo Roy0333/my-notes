@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { db, auth } from "../firebase";
 import {
@@ -18,6 +18,7 @@ const Home = () => {
   const [detailDropdown, setDetailDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const navigate = useNavigate();
   const isOpenDropDown = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
@@ -141,7 +142,14 @@ const Home = () => {
               />
               {detailDropdown === note.id && (
                 <div className="bg-white shadow-lg absolute top-full left-0 -translate-x-1/2 rounded-md z-10">
-                  <button className="px-3 py-2 border-b border-solid border-gray-200 w-full text-left flex gap-2 items-center">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      navigate(`/edit-note/${note.id}`);
+                    }}
+                    className="px-3 py-2 border-b border-solid border-gray-200 w-full text-left flex gap-2 items-center"
+                  >
                     <Pencil className="w-5 h-5" /> Edit
                   </button>
                   <button

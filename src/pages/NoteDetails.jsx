@@ -28,7 +28,20 @@ const NoteDetails = () => {
 
   return (
     <div>
-      <button onClick={() => navigate(-1)}>← Back</button>
+      <div className="flex justify-between items-center">
+        <button
+          className="font-semibold bg-white text-black border border-black transition duration-300 rounded-md py-2 px-3 flex items-center gap-1.5"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
+        <button
+          className="text-base font-semibold bg-black text-white hover:bg-white hover:text-black border border-black transition duration-300 rounded-md py-2 md:px-3 px-2.5 flex items-center gap-1.5"
+          onClick={() => navigate(`/edit-note/${id}`)}
+        >
+          Edit
+        </button>
+      </div>
 
       <h1>{note.title}</h1>
       {/* {note.content} */}

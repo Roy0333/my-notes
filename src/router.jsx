@@ -10,6 +10,7 @@ import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/Home";
 import AddNote from "./pages/AddNote";
 import NoteDetails from "./pages/NoteDetails";
+import EditNote from "./pages/EditNote";
 
 const router = createBrowserRouter([
   // Public routes
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/note/:id",
         element: <NoteDetails />,
+      },
+      {
+        path: "/edit-note/:id",
+        element: <EditNote />,
       },
     ],
   },

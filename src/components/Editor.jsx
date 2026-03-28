@@ -32,6 +32,9 @@ const Editor = forwardRef((props, ref) => {
 
       return html;
     },
+    setContent(value) {
+      editorRef.current.innerHTML = value;
+    },
   }));
   const fileInputRef = useRef(null);
   const savedRange = useRef(null);
